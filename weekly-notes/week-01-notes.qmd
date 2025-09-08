@@ -23,5 +23,4 @@ date: "2025-09-08"
 - Github and programming languages like R are commonly used tools in the Analytics realm. Analytics are used to predict behaviors, outcomes, and gain insight into topics that will drive policy creation or change.
 
 ## Reflection
-- [What was most interesting]
-- [How I'll apply this knowledge]
+- This is a change I am making to see if I can successfully push this to my website.
