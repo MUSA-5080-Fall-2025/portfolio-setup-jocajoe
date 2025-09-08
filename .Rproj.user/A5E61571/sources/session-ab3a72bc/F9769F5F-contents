@@ -1,0 +1,26 @@
+---
+title: "Week 1 Notes - Course Introduction"
+date: "2025-09-08"
+---
+
+## Key Concepts Learned
+- All work will be added to our portfolio website including these notes, projects, and assignments
+- Course will utilize R and R studio for programming.
+
+## Coding Techniques
+- CSV files can be read into R Studio as 'tibbles' with the Tidyverse package
+- There are commmon R functions we will use such as glimpse(), mutate(), names(), rename(), etc. 
+- Use slanty single quotes ` like this and not ' these bad boys. Which makes me sad becuase ' these are my favorite
+- Groupbys can be used to find matches on specified variables and 'put them aside'
+- Summarize() is used to execute a command like  min, mean, sum etc. 
+- there are pipes that appear on the side of the code that connect lines of code together. Passes outputs fromn one to another. 
+
+## Questions & Challenges
+- I need to practice my R big time
+- Nail down understanding GitHub and not just how to use it.
+
+## Connections to Policy
+- Github and programming languages like R are commonly used tools in the Analytics realm. Analytics are used to predict behaviors, outcomes, and gain insight into topics that will drive policy creation or change.
+
+## Reflection
+- This is a change I am making to see if I can successfully push this to my website.
