@@ -14,40 +14,6 @@ execute:
   message: false
 ---
 
-# Assignment Overview
-
-## Scenario
-
-You are a data analyst for the **PA Department of Human Services**. The department is considering implementing an algorithmic system to identify communities that should receive priority for social service funding and outreach programs. Your supervisor has asked you to evaluate the quality and reliability of available census data to inform this decision.
-
-Drawing on our Week 2 discussion of algorithmic bias, you need to assess not just what the data shows, but how reliable it is and what communities might be affected by data quality issues.
-
-## Learning Objectives
-
-- Apply dplyr functions to real census data for policy analysis
-- Evaluate data quality using margins of error 
-- Connect technical analysis to algorithmic decision-making
-- Identify potential equity implications of data reliability issues
-- Create professional documentation for policy stakeholders
-
-## Submission Instructions
-
-**Submit by posting your updated portfolio link on Canvas.** Your assignment should be accessible at `your-portfolio-url/assignments/assignment_1/`
-
-Make sure to update your `_quarto.yml` navigation to include this assignment under an "Assignments" menu.
-
-# Part 1: Portfolio Integration
-
-Create this assignment in your portfolio repository under an `assignments/assignment_1/` folder structure. Update your navigation menu to include:
-
-```
-- text: Assignments
-  menu:
-    - href: assignments/assignment_1/your_file_name.qmd
-      text: "Assignment 1: Census Data Exploration"
-```
-If there is a special character like comma, you need use double quote mark so that the quarto can identify this as text
-
 # Setup
 
 ```{r setup}
@@ -168,9 +134,7 @@ kable(
 
 **Data Quality Commentary:**
 
-[Write 2-3 sentences explaining what these results mean for algorithmic decision-making. Consider: Which counties might be poorly served by algorithms that rely on this income data? What factors might contribute to higher uncertainty?]
-
-If these counties are served by algorithmic decision making based on census data, they are vulnerable to bias and misrepresentation of their populations risking misappropriation of resources. The above Counties have the top 5 margin's of error within the dataset and very small populations.These are rural counties that are highly likely to need social assistance and state funding due to their lack of municipal resources. Their recorded median incomes are at risk of being misrepresented by a sample population that is more likely to have access to internet and more likely for their incomes to be on record. Poor rural communities tend to be underrepresented in census data due to their remoteness and lack of  
+If these counties are served by algorithmic decision making based on census data, they are vulnerable to bias and misrepresentation of their populations risking misappropriation of resources. The above Counties have the top 5 margin's of error within the dataset and very small populations.These are rural counties that are highly likely to need social assistance and state funding due to their lack of municipal resources. Their recorded median incomes are at risk of being misrepresented by a sample population that is more likely to have access to internet and more likely for their incomes to be on record. Poor rural communities tend to be underrepresented in census data due to their remoteness and lack of amenities. 
 
 # Part 3: Neighborhood-Level Analysis
 
@@ -200,7 +164,7 @@ kable(
 
 ```
 
-**Comment on the output:** I selected counties from three areas of the Reliability spectrum for comparison. A general trend seems to be that with higher population comes lower margin of error. These high population areas would see less errors from algorithm based service on their behalf. Conversely, potential error in lower population area's should be compensated for via more enhanced predictive modeling or simply a need based increase in service. A request based funding allotment could be a good stop gap until more accurate information is availible.
+**Comment on the output:** I selected counties from three areas of the Reliability spectrum for comparison. A general trend seems to be that with higher population comes lower margin of error. These high population areas would see less errors from algorithm based service on their behalf. Conversely, potential error in lower population area's should be compensated for via more enhanced predictive modeling or simply a need based increase in service. A request based funding allotment could be a good stop gap until more accurate information is available.
 
 ## 3.2 Tract-Level Demographics
 
@@ -374,26 +338,6 @@ kable(
 
 ## 5.1 Analysis Integration and Professional Summary
 
-**Your Task:** Write an executive summary that integrates findings from all four analyses.
-
-**Executive Summary Requirements:**
-1. **Overall Pattern Identification**: What are the systematic patterns across all your analyses?
-
-The chief systematic pattern across all my analysis was the inverse relationship between population and margin of error. Both counties and tracts that contained lower populations were more likely to have higher margins of error.
-
-2. **Equity Assessment**: Which communities face the greatest risk of algorithmic bias based on your findings?
-
-This analysis showed that these rural communities face the largest risk of misrepresentation when employing algorithmic decision making. I would like to increase the scope of the study to examine urban population in more detail to understand which demographics are at higher risk of misrepresentation regardless of population dsensity. 
-
-3. **Root Cause Analysis**: What underlying factors drive both data quality issues and bias risk?
-
-Systemic factors like poverty, historical oppression, and political and economic conditions all contribute to bias within data sets. Any analysis based on census data must account for these factors or they risk harming underrepresented communities. Under reporting or over reporting of information is cause for inaccuracy in algorithmic decision making.
-
-4. **Strategic Recommendations**: What should the Department implement to address these systematic issues?
-
-The department should include additional data in its analysis to create a more informed view of their target areas. Special attention should be payed to counties and tracts with a high Margin of Error in Census data. They should also allow for increased allocation of funds to these areas on an as needed basis. I would recommend a hybrid approach of algorithmic decision making and field research to determine resource allocation.
-
-
 
 **Executive Summary:**
 
@@ -508,17 +452,3 @@ This analysis was conducted with data from the 2020 U.S. Census and the 2023 5 y
 This analysis was limited by geographic scope and sample size of included counties. It would be prudent to extend this study to all counties in PA at the tract level. It would also be of interest to perform this study with multiple concurrent ACS surveys to ensure understand how these demographics are changing over time.
 
 ---
-
-## Submission Checklist
-
-Before submitting your portfolio link on Canvas:
-
-- [ ] All code chunks run without errors
-- [ ] All "[Fill this in]" prompts have been completed
-- [ ] Tables are properly formatted and readable
-- [ ] Executive summary addresses all four required components
-- [ ] Portfolio navigation includes this assignment
-- [ ] Census API key is properly set 
-- [ ] Document renders correctly to HTML
-
-**Remember:** Submit your portfolio URL on Canvas, not the file itself. Your assignment should be accessible at `your-portfolio-url/assignments/assignment_1/your_file_name.html`
