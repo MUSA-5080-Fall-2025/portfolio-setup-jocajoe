@@ -1,0 +1,116 @@
+---
+title: "Week 5 Notes - Linear Regression"
+date: "2025-10-08"
+---
+
+## Key Concepts Learned
+- Applying linear regression to data to make predictions
+- Model evaluation
+- Statistical learning framework - set of approaches for estimating a relationshiop
+- y = median income x = population density f = relationship between variables
+  - Prediction and inference are reasons for estimating f
+- linear regression relies on assumptions and is sensitive to outliers
+
+  
+- Parametric and non-parametric methods
+  - parametric make assumption about the form (linear)
+  - reduces problem to estimating a few parameters
+  - non-parametric doesnt assume form
+  - requires more data
+  - harder to interpret
+- most ML models are parametric
+- all statistics are based on estimates (samples) we need to determine how reliable our sample is
+
+**The logic:**
+
+1. **Null hypothesis (H₀):** β₁ = 0 (no relationship)
+2. **Our estimate:** β₁ = 0.02
+3. **Question:** Could we get 0.02 just by chance if H₀ is true?
+
+**t-statistic:** How many standard errors away from 0?
+
+- Bigger |t| = more confidence the relationship is real
+
+**p-value:** Probability of seeing our estimate if H₀ is true
+
+- Small p → reject H₀, conclude relationship exists
+
+- r squared is good for just inference
+
+- we want to know how our model does for new unseen values
+
+**Two key questions:**
+
+1. **How well does it fit the data we used?** (in-sample fit)
+2. **How well would it predict new data?** (out-of-sample performance)
+
+**These are NOT the same thing!**
+
+- Underfitting and overfitting are risks when developing models
+- underfitting is essentially capturing no relationship
+- overfitting is following a relationship too far risking the model not being useful for following samples (i.e. we fit a model too well to PA and it does not handle OK data well)
+
+- take 70% of counties from PA (47) for test data (training dataset), test with 20 counties
+- Figure out how far away our test data is from the real data for those 20 counties
+- 70/30 reccommended split for training/test
+-Root means swaured error (RMSE) is squared difference of test v training model
+- "on average my model is only off by $9500" etc.
+- K fold cross validation - 10 fold validation
+- in the first fold observations 1-20 become test data 21-67 are training, then test becomes 20-40 and others are training. So on and so forth
+- essentially training the model on different sections of our sample and validating how well the model performs with each
+
+Key metrics:
+ - RSME (typical prediction error)
+ -  R squared (% of variation explained)
+ - MAE  mean absolute error
+ 
+Checking assumptions:
+
+Violating these assumptions may mean that coefficiants are biased, SE are wrong, predictions are unreliable
+
+ - Linearity - check with residual plot. Errors against fitted values
+    - Good: random scatter, points around 0, constant spread
+    - Bad: Curved Pattern, model missing something, predictions biased
+
+ - Constant Variance - Heteroscedasticity = bad 
+    - unequal variance across residuals
+    - symptom of model misspecification
+    - missing variables that matter more at certain x values
+    - Formal Test: Breusch-Pagan 
+      p > 0.05:** Constant variance assumption OK
+      p < 0.05:** Evidence of heteroscedasticity
+    - If detected - transform y, robust standard errors, add missing          variables, accept your fate
+    
+ - Normality of residuals
+   - Less critical for **point predictions** (unbiased regardless)
+   - Important for **confidence intervals** and prediction intervals
+   - Needed for valid hypothesis tests (t-tests, F-tests)
+   - test with Q-Q plot
+
+  - Multicollinearity
+    - coefficiants become unstable
+    - Predictors are too correlated
+    - test with vif (variance inflation factor) >10 is bad
+  
+  - No influential outliers
+    - not all outliers are problems only those with high leverage and        high residuals
+    - Cooks distance is the measure of influence of a variable
+    - Combat by adding more predictors (or features)
+    - Log transformation will show percentages of relationships
+    - Create catagorical variables: i.e Philly is a outlier, create          variable for in metro area or not
+ 
+ 
+## Coding Techniques
+- OLS regression in R
+- lm in R creates a linear model
+- Testing assumptions of linear regression (Breusch-Pagan etc.)
+
+## Questions & Challenges
+- How are outliers dealt with when we are dealing with real policy questions. For example, philadelphia is an outlier for income/population but is a very important and high op county.
+
+## Connections to Policy
+- Linear regression can be used to quantify relationships between variables. This is useful in policy when making data informed decisions.
+
+## Reflection
+- R makes it very easy to run statistical models (interpreting is the hard part)
+- 

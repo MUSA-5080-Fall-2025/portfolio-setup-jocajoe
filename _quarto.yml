@@ -12,16 +12,14 @@ website:
         menu:
           - href: weekly-notes/week-01-notes.qmd
             text: Week 1
+          - href: weekly-notes/week-05-notes.qmd
+            text: Week 5
       - text: Labs
         menu:
           - href: labs/lab_0/
             text: "Lab 0: dplyr Basics"
-          - href: labs/lab_1/
-            text: "Lab 1: Assignment 1"
-      - text: Assignments
-        menu:
           - href: assignments/assignment_1/assignment1.qmd
-            text: "Assignment 1: Census Data Exploration"
+            text: "Lab 1: Assignment 1"
 format:
   html:
     theme: cosmo

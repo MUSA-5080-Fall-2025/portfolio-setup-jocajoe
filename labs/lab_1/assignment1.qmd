@@ -54,8 +54,12 @@ If there is a special character like comma, you need use double quote mark so th
 library(tidycensus)
 library(tidyverse)
 library(knitr)
-census_api_key("8deb926015351433bef092c55a5e8a90573283bd")
 
+```
+
+```{r api key}
+#| include: false
+census_api_key("8deb926015351433bef092c55a5e8a90573283bd")
 ```
 # Choose your state for analysis - assign it to a variable called my_state
 
