@@ -1,45 +1,80 @@
 [
   {
-    "objectID": "weekly-notes/week-05-notes.html",
-    "href": "weekly-notes/week-05-notes.html",
+    "objectID": "weekly-notes/week-06-notes.html",
+    "href": "weekly-notes/week-06-notes.html",
     "title": "Week 5 Notes - Linear Regression",
     "section": "",
-    "text": "Applying linear regression to data to make predictions\nModel evaluation\nStatistical learning framework - set of approaches for estimating a relationshiop\ny = median income x = population density f = relationship between variables\n\nPrediction and inference are reasons for estimating f\n\nlinear regression relies on assumptions and is sensitive to outliers\nParametric and non-parametric methods\n\nparametric make assumption about the form (linear)\nreduces problem to estimating a few parameters\nnon-parametric doesnt assume form\nrequires more data\nharder to interpret\n\nmost ML models are parametric\nall statistics are based on estimates (samples) we need to determine how reliable our sample is\n\nThe logic:\n\nNull hypothesis (H₀): β₁ = 0 (no relationship)\nOur estimate: β₁ = 0.02\nQuestion: Could we get 0.02 just by chance if H₀ is true?\n\nt-statistic: How many standard errors away from 0?\n\nBigger |t| = more confidence the relationship is real\n\np-value: Probability of seeing our estimate if H₀ is true\n\nSmall p → reject H₀, conclude relationship exists\nr squared is good for just inference\nwe want to know how our model does for new unseen values\n\nTwo key questions:\n\nHow well does it fit the data we used? (in-sample fit)\nHow well would it predict new data? (out-of-sample performance)\n\nThese are NOT the same thing!\n\nUnderfitting and overfitting are risks when developing models\nunderfitting is essentially capturing no relationship\noverfitting is following a relationship too far risking the model not being useful for following samples (i.e. we fit a model too well to PA and it does not handle OK data well)\ntake 70% of counties from PA (47) for test data (training dataset), test with 20 counties\nFigure out how far away our test data is from the real data for those 20 counties\n70/30 reccommended split for training/test -Root means swaured error (RMSE) is squared difference of test v training model\n“on average my model is only off by $9500” etc.\nK fold cross validation - 10 fold validation\nin the first fold observations 1-20 become test data 21-67 are training, then test becomes 20-40 and others are training. So on and so forth\nessentially training the model on different sections of our sample and validating how well the model performs with each\n\nKey metrics: - RSME (typical prediction error) - R squared (% of variation explained) - MAE mean absolute error\nChecking assumptions:\nViolating these assumptions may mean that coefficiants are biased, SE are wrong, predictions are unreliable\n\nLinearity - check with residual plot. Errors against fitted values\n\nGood: random scatter, points around 0, constant spread\nBad: Curved Pattern, model missing something, predictions biased\n\nConstant Variance - Heteroscedasticity = bad\n\nunequal variance across residuals\nsymptom of model misspecification\nmissing variables that matter more at certain x values\nFormal Test: Breusch-Pagan p &gt; 0.05:** Constant variance assumption OK p &lt; 0.05:** Evidence of heteroscedasticity\nIf detected - transform y, robust standard errors, add missing variables, accept your fate\n\nNormality of residuals\n\nLess critical for point predictions (unbiased regardless)\nImportant for confidence intervals and prediction intervals\nNeeded for valid hypothesis tests (t-tests, F-tests)\ntest with Q-Q plot\n\nMulticollinearity\n\ncoefficiants become unstable\nPredictors are too correlated\ntest with vif (variance inflation factor) &gt;10 is bad\n\nNo influential outliers\n\nnot all outliers are problems only those with high leverage and high residuals\nCooks distance is the measure of influence of a variable\nCombat by adding more predictors (or features)\nLog transformation will show percentages of relationships\nCreate catagorical variables: i.e Philly is a outlier, create variable for in metro area or not"
+    "text": "Review of basic model\nLimitations of standard stat models - does not account for location (important for housing)\nNeed to incorporate other factors in to our model to accurately make predictions\ngs86 nad83 very similar formats for space\nIncluding and interpreting catagorical variables. Things like neighborhoods have features or attraction that are numeric.\ncreate big ole table of dummy variables comparing every var to reference catagoric variable\nInteraction Effects - does the effect of one variable depend on the level of another variable i.e. does number of bathrooms have more of an impact on price in wealthy vs less wealthy areas\ninteraction term - multiply variables together to see if they interact\nDo not use interactions in small samples\nYou may also risk overfitting with lots of interactions\nNon linear variables can be accounted for by squaring coefficients\n\nThree approaches to spatial features: - Buffer Aggregation Count of events within a defined distance\n\nk-nearest neighbors average distance to k closest events\ndistance to specific points straight line distance to important locations"
   },
   {
-    "objectID": "weekly-notes/week-05-notes.html#key-concepts-learned",
-    "href": "weekly-notes/week-05-notes.html#key-concepts-learned",
+    "objectID": "weekly-notes/week-06-notes.html#key-concepts-learned",
+    "href": "weekly-notes/week-06-notes.html#key-concepts-learned",
     "title": "Week 5 Notes - Linear Regression",
     "section": "",
-    "text": "Applying linear regression to data to make predictions\nModel evaluation\nStatistical learning framework - set of approaches for estimating a relationshiop\ny = median income x = population density f = relationship between variables\n\nPrediction and inference are reasons for estimating f\n\nlinear regression relies on assumptions and is sensitive to outliers\nParametric and non-parametric methods\n\nparametric make assumption about the form (linear)\nreduces problem to estimating a few parameters\nnon-parametric doesnt assume form\nrequires more data\nharder to interpret\n\nmost ML models are parametric\nall statistics are based on estimates (samples) we need to determine how reliable our sample is\n\nThe logic:\n\nNull hypothesis (H₀): β₁ = 0 (no relationship)\nOur estimate: β₁ = 0.02\nQuestion: Could we get 0.02 just by chance if H₀ is true?\n\nt-statistic: How many standard errors away from 0?\n\nBigger |t| = more confidence the relationship is real\n\np-value: Probability of seeing our estimate if H₀ is true\n\nSmall p → reject H₀, conclude relationship exists\nr squared is good for just inference\nwe want to know how our model does for new unseen values\n\nTwo key questions:\n\nHow well does it fit the data we used? (in-sample fit)\nHow well would it predict new data? (out-of-sample performance)\n\nThese are NOT the same thing!\n\nUnderfitting and overfitting are risks when developing models\nunderfitting is essentially capturing no relationship\noverfitting is following a relationship too far risking the model not being useful for following samples (i.e. we fit a model too well to PA and it does not handle OK data well)\ntake 70% of counties from PA (47) for test data (training dataset), test with 20 counties\nFigure out how far away our test data is from the real data for those 20 counties\n70/30 reccommended split for training/test -Root means swaured error (RMSE) is squared difference of test v training model\n“on average my model is only off by $9500” etc.\nK fold cross validation - 10 fold validation\nin the first fold observations 1-20 become test data 21-67 are training, then test becomes 20-40 and others are training. So on and so forth\nessentially training the model on different sections of our sample and validating how well the model performs with each\n\nKey metrics: - RSME (typical prediction error) - R squared (% of variation explained) - MAE mean absolute error\nChecking assumptions:\nViolating these assumptions may mean that coefficiants are biased, SE are wrong, predictions are unreliable\n\nLinearity - check with residual plot. Errors against fitted values\n\nGood: random scatter, points around 0, constant spread\nBad: Curved Pattern, model missing something, predictions biased\n\nConstant Variance - Heteroscedasticity = bad\n\nunequal variance across residuals\nsymptom of model misspecification\nmissing variables that matter more at certain x values\nFormal Test: Breusch-Pagan p &gt; 0.05:** Constant variance assumption OK p &lt; 0.05:** Evidence of heteroscedasticity\nIf detected - transform y, robust standard errors, add missing variables, accept your fate\n\nNormality of residuals\n\nLess critical for point predictions (unbiased regardless)\nImportant for confidence intervals and prediction intervals\nNeeded for valid hypothesis tests (t-tests, F-tests)\ntest with Q-Q plot\n\nMulticollinearity\n\ncoefficiants become unstable\nPredictors are too correlated\ntest with vif (variance inflation factor) &gt;10 is bad\n\nNo influential outliers\n\nnot all outliers are problems only those with high leverage and high residuals\nCooks distance is the measure of influence of a variable\nCombat by adding more predictors (or features)\nLog transformation will show percentages of relationships\nCreate catagorical variables: i.e Philly is a outlier, create variable for in metro area or not"
+    "text": "Review of basic model\nLimitations of standard stat models - does not account for location (important for housing)\nNeed to incorporate other factors in to our model to accurately make predictions\ngs86 nad83 very similar formats for space\nIncluding and interpreting catagorical variables. Things like neighborhoods have features or attraction that are numeric.\ncreate big ole table of dummy variables comparing every var to reference catagoric variable\nInteraction Effects - does the effect of one variable depend on the level of another variable i.e. does number of bathrooms have more of an impact on price in wealthy vs less wealthy areas\ninteraction term - multiply variables together to see if they interact\nDo not use interactions in small samples\nYou may also risk overfitting with lots of interactions\nNon linear variables can be accounted for by squaring coefficients\n\nThree approaches to spatial features: - Buffer Aggregation Count of events within a defined distance\n\nk-nearest neighbors average distance to k closest events\ndistance to specific points straight line distance to important locations"
   },
   {
-    "objectID": "weekly-notes/week-05-notes.html#coding-techniques",
-    "href": "weekly-notes/week-05-notes.html#coding-techniques",
+    "objectID": "weekly-notes/week-06-notes.html#coding-techniques",
+    "href": "weekly-notes/week-06-notes.html#coding-techniques",
     "title": "Week 5 Notes - Linear Regression",
     "section": "Coding Techniques",
-    "text": "Coding Techniques\n\nOLS regression in R\nlm in R creates a linear model\nTesting assumptions of linear regression (Breusch-Pagan etc.)"
+    "text": "Coding Techniques\n\nst_as_sf - command that uses long lat to make geometry column, transform with crs =\nas.factor(name) as indicates discrete catagory. Creates binary variables in background\nrefrence catagrory is top alphabetically by default"
   },
   {
-    "objectID": "weekly-notes/week-05-notes.html#questions-challenges",
-    "href": "weekly-notes/week-05-notes.html#questions-challenges",
+    "objectID": "weekly-notes/week-06-notes.html#questions-challenges",
+    "href": "weekly-notes/week-06-notes.html#questions-challenges",
     "title": "Week 5 Notes - Linear Regression",
     "section": "Questions & Challenges",
-    "text": "Questions & Challenges\n\nHow are outliers dealt with when we are dealing with real policy questions. For example, philadelphia is an outlier for income/population but is a very important and high op county."
+    "text": "Questions & Challenges\n\nHow do we determine what kind of model is right for our analysis?"
   },
   {
-    "objectID": "weekly-notes/week-05-notes.html#connections-to-policy",
-    "href": "weekly-notes/week-05-notes.html#connections-to-policy",
+    "objectID": "weekly-notes/week-06-notes.html#connections-to-policy",
+    "href": "weekly-notes/week-06-notes.html#connections-to-policy",
     "title": "Week 5 Notes - Linear Regression",
     "section": "Connections to Policy",
-    "text": "Connections to Policy\n\nLinear regression can be used to quantify relationships between variables. This is useful in policy when making data informed decisions."
+    "text": "Connections to Policy\n\nMore robust models are key in attaining better predictions for human centered data\nReflection\nIncorporating spatial and catagorical variables into analysis greatly increases the effectiveness our our models."
   },
   {
-    "objectID": "weekly-notes/week-05-notes.html#reflection",
-    "href": "weekly-notes/week-05-notes.html#reflection",
-    "title": "Week 5 Notes - Linear Regression",
+    "objectID": "weekly-notes/week-01-notes.html",
+    "href": "weekly-notes/week-01-notes.html",
+    "title": "Week 1 Notes - Course Introduction",
+    "section": "",
+    "text": "All work will be added to our portfolio website including these notes, projects, and assignments\nCourse will utilize R and R studio for programming."
+  },
+  {
+    "objectID": "weekly-notes/week-01-notes.html#key-concepts-learned",
+    "href": "weekly-notes/week-01-notes.html#key-concepts-learned",
+    "title": "Week 1 Notes - Course Introduction",
+    "section": "",
+    "text": "All work will be added to our portfolio website including these notes, projects, and assignments\nCourse will utilize R and R studio for programming."
+  },
+  {
+    "objectID": "weekly-notes/week-01-notes.html#coding-techniques",
+    "href": "weekly-notes/week-01-notes.html#coding-techniques",
+    "title": "Week 1 Notes - Course Introduction",
+    "section": "Coding Techniques",
+    "text": "Coding Techniques\n\nCSV files can be read into R Studio as ‘tibbles’ with the Tidyverse package\nThere are commmon R functions we will use such as glimpse(), mutate(), names(), rename(), etc.\nUse slanty single quotes ` like this and not ’ these bad boys. Which makes me sad becuase ’ these are my favorite\nGroupbys can be used to find matches on specified variables and ‘put them aside’\nSummarize() is used to execute a command like min, mean, sum etc.\nthere are pipes that appear on the side of the code that connect lines of code together. Passes outputs fromn one to another."
+  },
+  {
+    "objectID": "weekly-notes/week-01-notes.html#questions-challenges",
+    "href": "weekly-notes/week-01-notes.html#questions-challenges",
+    "title": "Week 1 Notes - Course Introduction",
+    "section": "Questions & Challenges",
+    "text": "Questions & Challenges\n\nI need to practice my R big time\nNail down understanding GitHub and not just how to use it."
+  },
+  {
+    "objectID": "weekly-notes/week-01-notes.html#connections-to-policy",
+    "href": "weekly-notes/week-01-notes.html#connections-to-policy",
+    "title": "Week 1 Notes - Course Introduction",
+    "section": "Connections to Policy",
+    "text": "Connections to Policy\n\nGithub and programming languages like R are commonly used tools in the Analytics realm. Analytics are used to predict behaviors, outcomes, and gain insight into topics that will drive policy creation or change."
+  },
+  {
+    "objectID": "weekly-notes/week-01-notes.html#reflection",
+    "href": "weekly-notes/week-01-notes.html#reflection",
+    "title": "Week 1 Notes - Course Introduction",
     "section": "Reflection",
-    "text": "Reflection\n\nR makes it very easy to run statistical models (interpreting is the hard part)"
+    "text": "Reflection\n\n[What was most interesting]\n[How I’ll apply this knowledge]"
   },
   {
     "objectID": "labs/lab_1/assignment1.html",
@@ -371,45 +406,45 @@
     "text": "Before submitting, make sure you’ve: - [ ] Customized _quarto.yml with your name - [ ] Updated index.qmd with your information - [ ] Completed Week 1 notes - [ ] Enabled GitHub Pages - [ ] Verified your website loads correctly - [ ] Submitted your URL to Canvas\n\nNeed help? Don’t struggle alone - reach out during office hours (mine + TAs) or in class!"
   },
   {
-    "objectID": "weekly-notes/week-01-notes.html",
-    "href": "weekly-notes/week-01-notes.html",
-    "title": "Week 1 Notes - Course Introduction",
+    "objectID": "weekly-notes/week-05-notes.html",
+    "href": "weekly-notes/week-05-notes.html",
+    "title": "Week 5 Notes - Linear Regression",
     "section": "",
-    "text": "All work will be added to our portfolio website including these notes, projects, and assignments\nCourse will utilize R and R studio for programming."
+    "text": "Applying linear regression to data to make predictions\nModel evaluation\nStatistical learning framework - set of approaches for estimating a relationshiop\ny = median income x = population density f = relationship between variables\n\nPrediction and inference are reasons for estimating f\n\nlinear regression relies on assumptions and is sensitive to outliers\nParametric and non-parametric methods\n\nparametric make assumption about the form (linear)\nreduces problem to estimating a few parameters\nnon-parametric doesnt assume form\nrequires more data\nharder to interpret\n\nmost ML models are parametric\nall statistics are based on estimates (samples) we need to determine how reliable our sample is\n\nThe logic:\n\nNull hypothesis (H₀): β₁ = 0 (no relationship)\nOur estimate: β₁ = 0.02\nQuestion: Could we get 0.02 just by chance if H₀ is true?\n\nt-statistic: How many standard errors away from 0?\n\nBigger |t| = more confidence the relationship is real\n\np-value: Probability of seeing our estimate if H₀ is true\n\nSmall p → reject H₀, conclude relationship exists\nr squared is good for just inference\nwe want to know how our model does for new unseen values\n\nTwo key questions:\n\nHow well does it fit the data we used? (in-sample fit)\nHow well would it predict new data? (out-of-sample performance)\n\nThese are NOT the same thing!\n\nUnderfitting and overfitting are risks when developing models\nunderfitting is essentially capturing no relationship\noverfitting is following a relationship too far risking the model not being useful for following samples (i.e. we fit a model too well to PA and it does not handle OK data well)\ntake 70% of counties from PA (47) for test data (training dataset), test with 20 counties\nFigure out how far away our test data is from the real data for those 20 counties\n70/30 reccommended split for training/test -Root means swaured error (RMSE) is squared difference of test v training model\n“on average my model is only off by $9500” etc.\nK fold cross validation - 10 fold validation\nin the first fold observations 1-20 become test data 21-67 are training, then test becomes 20-40 and others are training. So on and so forth\nessentially training the model on different sections of our sample and validating how well the model performs with each\n\nKey metrics: - RSME (typical prediction error) - R squared (% of variation explained) - MAE mean absolute error\nChecking assumptions:\nViolating these assumptions may mean that coefficiants are biased, SE are wrong, predictions are unreliable\n\nLinearity - check with residual plot. Errors against fitted values\n\nGood: random scatter, points around 0, constant spread\nBad: Curved Pattern, model missing something, predictions biased\n\nConstant Variance - Heteroscedasticity = bad\n\nunequal variance across residuals\nsymptom of model misspecification\nmissing variables that matter more at certain x values\nFormal Test: Breusch-Pagan p &gt; 0.05:** Constant variance assumption OK p &lt; 0.05:** Evidence of heteroscedasticity\nIf detected - transform y, robust standard errors, add missing variables, accept your fate\n\nNormality of residuals\n\nLess critical for point predictions (unbiased regardless)\nImportant for confidence intervals and prediction intervals\nNeeded for valid hypothesis tests (t-tests, F-tests)\ntest with Q-Q plot\n\nMulticollinearity\n\ncoefficiants become unstable\nPredictors are too correlated\ntest with vif (variance inflation factor) &gt;10 is bad\n\nNo influential outliers\n\nnot all outliers are problems only those with high leverage and high residuals\nCooks distance is the measure of influence of a variable\nCombat by adding more predictors (or features)\nLog transformation will show percentages of relationships\nCreate catagorical variables: i.e Philly is a outlier, create variable for in metro area or not"
   },
   {
-    "objectID": "weekly-notes/week-01-notes.html#key-concepts-learned",
-    "href": "weekly-notes/week-01-notes.html#key-concepts-learned",
-    "title": "Week 1 Notes - Course Introduction",
+    "objectID": "weekly-notes/week-05-notes.html#key-concepts-learned",
+    "href": "weekly-notes/week-05-notes.html#key-concepts-learned",
+    "title": "Week 5 Notes - Linear Regression",
     "section": "",
-    "text": "All work will be added to our portfolio website including these notes, projects, and assignments\nCourse will utilize R and R studio for programming."
+    "text": "Applying linear regression to data to make predictions\nModel evaluation\nStatistical learning framework - set of approaches for estimating a relationshiop\ny = median income x = population density f = relationship between variables\n\nPrediction and inference are reasons for estimating f\n\nlinear regression relies on assumptions and is sensitive to outliers\nParametric and non-parametric methods\n\nparametric make assumption about the form (linear)\nreduces problem to estimating a few parameters\nnon-parametric doesnt assume form\nrequires more data\nharder to interpret\n\nmost ML models are parametric\nall statistics are based on estimates (samples) we need to determine how reliable our sample is\n\nThe logic:\n\nNull hypothesis (H₀): β₁ = 0 (no relationship)\nOur estimate: β₁ = 0.02\nQuestion: Could we get 0.02 just by chance if H₀ is true?\n\nt-statistic: How many standard errors away from 0?\n\nBigger |t| = more confidence the relationship is real\n\np-value: Probability of seeing our estimate if H₀ is true\n\nSmall p → reject H₀, conclude relationship exists\nr squared is good for just inference\nwe want to know how our model does for new unseen values\n\nTwo key questions:\n\nHow well does it fit the data we used? (in-sample fit)\nHow well would it predict new data? (out-of-sample performance)\n\nThese are NOT the same thing!\n\nUnderfitting and overfitting are risks when developing models\nunderfitting is essentially capturing no relationship\noverfitting is following a relationship too far risking the model not being useful for following samples (i.e. we fit a model too well to PA and it does not handle OK data well)\ntake 70% of counties from PA (47) for test data (training dataset), test with 20 counties\nFigure out how far away our test data is from the real data for those 20 counties\n70/30 reccommended split for training/test -Root means swaured error (RMSE) is squared difference of test v training model\n“on average my model is only off by $9500” etc.\nK fold cross validation - 10 fold validation\nin the first fold observations 1-20 become test data 21-67 are training, then test becomes 20-40 and others are training. So on and so forth\nessentially training the model on different sections of our sample and validating how well the model performs with each\n\nKey metrics: - RSME (typical prediction error) - R squared (% of variation explained) - MAE mean absolute error\nChecking assumptions:\nViolating these assumptions may mean that coefficiants are biased, SE are wrong, predictions are unreliable\n\nLinearity - check with residual plot. Errors against fitted values\n\nGood: random scatter, points around 0, constant spread\nBad: Curved Pattern, model missing something, predictions biased\n\nConstant Variance - Heteroscedasticity = bad\n\nunequal variance across residuals\nsymptom of model misspecification\nmissing variables that matter more at certain x values\nFormal Test: Breusch-Pagan p &gt; 0.05:** Constant variance assumption OK p &lt; 0.05:** Evidence of heteroscedasticity\nIf detected - transform y, robust standard errors, add missing variables, accept your fate\n\nNormality of residuals\n\nLess critical for point predictions (unbiased regardless)\nImportant for confidence intervals and prediction intervals\nNeeded for valid hypothesis tests (t-tests, F-tests)\ntest with Q-Q plot\n\nMulticollinearity\n\ncoefficiants become unstable\nPredictors are too correlated\ntest with vif (variance inflation factor) &gt;10 is bad\n\nNo influential outliers\n\nnot all outliers are problems only those with high leverage and high residuals\nCooks distance is the measure of influence of a variable\nCombat by adding more predictors (or features)\nLog transformation will show percentages of relationships\nCreate catagorical variables: i.e Philly is a outlier, create variable for in metro area or not"
   },
   {
-    "objectID": "weekly-notes/week-01-notes.html#coding-techniques",
-    "href": "weekly-notes/week-01-notes.html#coding-techniques",
-    "title": "Week 1 Notes - Course Introduction",
+    "objectID": "weekly-notes/week-05-notes.html#coding-techniques",
+    "href": "weekly-notes/week-05-notes.html#coding-techniques",
+    "title": "Week 5 Notes - Linear Regression",
     "section": "Coding Techniques",
-    "text": "Coding Techniques\n\nCSV files can be read into R Studio as ‘tibbles’ with the Tidyverse package\nThere are commmon R functions we will use such as glimpse(), mutate(), names(), rename(), etc.\nUse slanty single quotes ` like this and not ’ these bad boys. Which makes me sad becuase ’ these are my favorite\nGroupbys can be used to find matches on specified variables and ‘put them aside’\nSummarize() is used to execute a command like min, mean, sum etc.\nthere are pipes that appear on the side of the code that connect lines of code together. Passes outputs fromn one to another."
+    "text": "Coding Techniques\n\nOLS regression in R\nlm in R creates a linear model\nTesting assumptions of linear regression (Breusch-Pagan etc.)"
   },
   {
-    "objectID": "weekly-notes/week-01-notes.html#questions-challenges",
-    "href": "weekly-notes/week-01-notes.html#questions-challenges",
-    "title": "Week 1 Notes - Course Introduction",
+    "objectID": "weekly-notes/week-05-notes.html#questions-challenges",
+    "href": "weekly-notes/week-05-notes.html#questions-challenges",
+    "title": "Week 5 Notes - Linear Regression",
     "section": "Questions & Challenges",
-    "text": "Questions & Challenges\n\nI need to practice my R big time\nNail down understanding GitHub and not just how to use it."
+    "text": "Questions & Challenges\n\nHow are outliers dealt with when we are dealing with real policy questions. For example, philadelphia is an outlier for income/population but is a very important and high op county."
   },
   {
-    "objectID": "weekly-notes/week-01-notes.html#connections-to-policy",
-    "href": "weekly-notes/week-01-notes.html#connections-to-policy",
-    "title": "Week 1 Notes - Course Introduction",
+    "objectID": "weekly-notes/week-05-notes.html#connections-to-policy",
+    "href": "weekly-notes/week-05-notes.html#connections-to-policy",
+    "title": "Week 5 Notes - Linear Regression",
     "section": "Connections to Policy",
-    "text": "Connections to Policy\n\nGithub and programming languages like R are commonly used tools in the Analytics realm. Analytics are used to predict behaviors, outcomes, and gain insight into topics that will drive policy creation or change."
+    "text": "Connections to Policy\n\nLinear regression can be used to quantify relationships between variables. This is useful in policy when making data informed decisions."
   },
   {
-    "objectID": "weekly-notes/week-01-notes.html#reflection",
-    "href": "weekly-notes/week-01-notes.html#reflection",
-    "title": "Week 1 Notes - Course Introduction",
+    "objectID": "weekly-notes/week-05-notes.html#reflection",
+    "href": "weekly-notes/week-05-notes.html#reflection",
+    "title": "Week 5 Notes - Linear Regression",
     "section": "Reflection",
-    "text": "Reflection\n\n[What was most interesting]\n[How I’ll apply this knowledge]"
+    "text": "Reflection\n\nR makes it very easy to run statistical models (interpreting is the hard part)"
   }
 ]
