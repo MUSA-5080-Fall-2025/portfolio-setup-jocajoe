@@ -22,6 +22,9 @@ website:
             text: "Lab 0: dplyr Basics"
           - href: assignments/assignment_1/assignment1.qmd
             text: "Lab 1: Assignment 1"
+          - href: labs/lab_2/Cahill_Joey_Assignment2.qmd
+            text: "Lab 2: Assignment 2"
+
 format:
   html:
     theme: cosmo
