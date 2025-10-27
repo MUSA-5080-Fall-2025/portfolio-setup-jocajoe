@@ -1,0 +1,46 @@
+---
+title: "Week 5 Notes - Linear Regression"
+date: "2025-10-08"
+---
+
+## Key Concepts Learned
+- Understanding model errors- Are our errors (when mapped) systematic?
+- Random errors
+  - No systematice pattern
+  - scattered in space
+  - prediction equally good everywhere
+  
+- Neighborhood fixed effect will absorb a lot of spatial error
+- look at plot of spacial lag of errors compared to avg error of 5 closest neighbors
+
+- Moran's I measures spatial autocorrelation range of -1(perfect negative correlation dispersion) to 0(random spatial clustering) to +1 (perfect spatial clustering)
+
+-  Different ways to define spatial relationships : Contiguity, Distance, k-Nearest
+
+Contiguity
+
+- Polygons that share a border
+- queen v. rook
+
+Distance
+- all within x  meters
+-fixed threshold
+
+k-nearest
+- closest k neighbors
+- adaptive distance
+
+
+ 
+## Coding Techniques
+- Refresher on file management using github and relative path names
+- spdep library can be used to test spaial errors
+- Create weight matrix in R, calculate morans I with moran.mc
+
+## Questions & Challenges
+-  Do the majority of studies performed in the policy space account for all of these potential causes of error? Is there a lot of bad resultsw out there that need to be reversed?
+
+## Connections to Policy
+- Validating models to ensure proper accounting for spatial autocorrelation is necessary in every geographic related analysis. These auto correslations will affect results of models and will have an impact on our decisions should be not account for them
+## Reflection
+- 

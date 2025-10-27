@@ -1,0 +1,43 @@
+---
+title: "Week 5 Notes - Linear Regression"
+date: "2025-10-08"
+---
+
+## Key Concepts Learned
+- Review of basic model
+- Limitations of standard stat models - does not account for location (important for housing)
+- Need to incorporate other factors in to our model to accurately make predictions
+- gs86 nad83 very similar formats for space
+- Including and interpreting catagorical variables. Things like neighborhoods have features or attraction that are numeric.
+- create big ole table of dummy variables comparing every var to reference catagoric variable
+- Interaction Effects - does the effect of one variable depend on the level of another variable i.e. does number of bathrooms have more of an impact on price in wealthy vs less wealthy areas
+- interaction term - multiply variables together to see if they interact
+-  Do not use interactions in small samples
+- You may also risk overfitting with lots of interactions
+- Non linear variables can be accounted for by squaring coefficients
+
+Three approaches to spatial features:
+  - Buffer Aggregation
+    Count of events within a defined distance
+    
+  - k-nearest neighbors
+    average distance to k closest events
+    
+  - distance to specific points
+    straight line distance to important locations
+ 
+ 
+## Coding Techniques
+- st_as_sf - command that uses long lat to make geometry column, transform with crs = 
+- as.factor(name) as indicates discrete catagory. Creates binary variables in background
+- refrence catagrory is top alphabetically by default
+- 
+
+## Questions & Challenges
+- How do we determine what kind of model is right for our analysis? 
+
+## Connections to Policy
+- More robust models are key in attaining better predictions for human centered data
+-   
+## Reflection
+- Incorporating spatial and catagorical variables into analysis greatly increases the effectiveness our our models.
