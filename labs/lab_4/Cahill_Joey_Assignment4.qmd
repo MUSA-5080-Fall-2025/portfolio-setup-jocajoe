@@ -1,0 +1,19 @@
+---
+title: "Assignment 4: Spatial Predictive Analysis"
+subtitle: "311 Violations In Chicago"
+author: "Joey Cahill"
+date: today
+format: 
+  html:
+    code-fold: false
+    toc: true
+    toc-location: left
+    theme: cosmo
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+
+
