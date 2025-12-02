@@ -719,5 +719,54 @@
     "title": "Week 5 Notes - Linear Regression",
     "section": "Connections to Policy",
     "text": "Connections to Policy\n\nMore robust models are key in attaining better predictions for human centered data\nReflection\nIncorporating spatial and catagorical variables into analysis greatly increases the effectiveness our our models."
+  },
+  {
+    "objectID": "labs/lab_5/Lab_5_Instructions.html",
+    "href": "labs/lab_5/Lab_5_Instructions.html",
+    "title": "HW5: Your Turn!",
+    "section": "",
+    "text": "For Homework 5, you’ll work either all byyyy yourself or in teams of 2 to:\n\n\n\nDownload data for Q2, Q3, or Q4 2024 from: https://www.rideindego.com/about/data/\nAdapt this code to work with your quarter:\n\nUpdate date ranges for weather data\nCheck for any data structure changes\nCreate the same 5 models\nCalculate MAE for each model\n\nCompare results to Q1 2025:\n\nHow do MAE values compare? Why might they differ?\nAre temporal patterns different (e.g., summer vs. winter)?\nWhich features are most important in your quarter?\n\n\n\n\n\nAnalyze your model’s errors in detail:\n\nSpatial patterns:\n\nCreate error maps\nIdentify neighborhoods with high errors\nHypothesize why (missing features? different demand patterns?)\n\nTemporal patterns:\n\nWhen are errors highest?\nDo certain hours/days have systematic under/over-prediction?\nAre there seasonal patterns?\n\nDemographic patterns:\n\nRelate errors to census characteristics\nAre certain communities systematically harder to predict?\nWhat are the equity implications?\n\n\n\n\n\nBased on your error analysis, add 2-3 NEW features to improve the model:\nPotential features to consider:\nTemporal features:\n\nHoliday indicators (Memorial Day, July 4th, Labor Day)\nSchool calendar (Penn, Drexel, Temple in session?)\nSpecial events (concerts, sports games, conventions)\nDay of month (payday effects?)\n\nWeather features:\n\nFeels-like temperature (wind chill/heat index)\n“Perfect biking weather” indicator (60-75°F, no rain)\nPrecipitation forecast (not just current)\nWeekend + nice weather interaction\n\nSpatial features:\n\nDistance to Center City\nDistance to nearest university\nDistance to nearest park\nPoints of interest nearby (restaurants, offices, bars)\nStation capacity\nBike lane connectivity\n\nTrip history features:\n\nRolling 7-day average demand\nSame hour last week\nStation “type” clustering (residential, commercial, tourist)\n\nImplementation:\n\nAdd your features to the best model\nCompare MAE before and after\nExplain why you chose these features\nDid they improve predictions? Where?\n\nTry a poisson model for count data\n\nDoes this improve model fit?\n\n\n\n\nWrite 1-2 paragraphs addressing:\n\nOperational implications:\n\nIs your final MAE “good enough” for Indego to use?\nWhen do prediction errors cause problems for rebalancing?\nWould you recommend deploying this system? Under what conditions?\n\nEquity considerations:\n\nDo prediction errors disproportionately affect certain neighborhoods?\nCould this system worsen existing disparities in bike access?\nWhat safeguards would you recommend?\n\nModel limitations:\n\nWhat patterns is your model missing?\nWhat assumptions might not hold in real deployment?\nHow would you improve this with more time/data?"
+  },
+  {
+    "objectID": "labs/lab_5/Lab_5_Instructions.html#part-1-replicate-with-different-quarter-alternately-you-could-do-a-longer-time-span-by-merging-multiple-quarters-together.-im-not-picky-about-that",
+    "href": "labs/lab_5/Lab_5_Instructions.html#part-1-replicate-with-different-quarter-alternately-you-could-do-a-longer-time-span-by-merging-multiple-quarters-together.-im-not-picky-about-that",
+    "title": "HW5: Your Turn!",
+    "section": "",
+    "text": "Download data for Q2, Q3, or Q4 2024 from: https://www.rideindego.com/about/data/\nAdapt this code to work with your quarter:\n\nUpdate date ranges for weather data\nCheck for any data structure changes\nCreate the same 5 models\nCalculate MAE for each model\n\nCompare results to Q1 2025:\n\nHow do MAE values compare? Why might they differ?\nAre temporal patterns different (e.g., summer vs. winter)?\nWhich features are most important in your quarter?"
+  },
+  {
+    "objectID": "labs/lab_5/Lab_5_Instructions.html#part-2-error-analysis",
+    "href": "labs/lab_5/Lab_5_Instructions.html#part-2-error-analysis",
+    "title": "HW5: Your Turn!",
+    "section": "",
+    "text": "Analyze your model’s errors in detail:\n\nSpatial patterns:\n\nCreate error maps\nIdentify neighborhoods with high errors\nHypothesize why (missing features? different demand patterns?)\n\nTemporal patterns:\n\nWhen are errors highest?\nDo certain hours/days have systematic under/over-prediction?\nAre there seasonal patterns?\n\nDemographic patterns:\n\nRelate errors to census characteristics\nAre certain communities systematically harder to predict?\nWhat are the equity implications?"
+  },
+  {
+    "objectID": "labs/lab_5/Lab_5_Instructions.html#part-3-feature-engineering-model-improvement",
+    "href": "labs/lab_5/Lab_5_Instructions.html#part-3-feature-engineering-model-improvement",
+    "title": "HW5: Your Turn!",
+    "section": "",
+    "text": "Based on your error analysis, add 2-3 NEW features to improve the model:\nPotential features to consider:\nTemporal features:\n\nHoliday indicators (Memorial Day, July 4th, Labor Day)\nSchool calendar (Penn, Drexel, Temple in session?)\nSpecial events (concerts, sports games, conventions)\nDay of month (payday effects?)\n\nWeather features:\n\nFeels-like temperature (wind chill/heat index)\n“Perfect biking weather” indicator (60-75°F, no rain)\nPrecipitation forecast (not just current)\nWeekend + nice weather interaction\n\nSpatial features:\n\nDistance to Center City\nDistance to nearest university\nDistance to nearest park\nPoints of interest nearby (restaurants, offices, bars)\nStation capacity\nBike lane connectivity\n\nTrip history features:\n\nRolling 7-day average demand\nSame hour last week\nStation “type” clustering (residential, commercial, tourist)\n\nImplementation:\n\nAdd your features to the best model\nCompare MAE before and after\nExplain why you chose these features\nDid they improve predictions? Where?\n\nTry a poisson model for count data\n\nDoes this improve model fit?"
+  },
+  {
+    "objectID": "labs/lab_5/Lab_5_Instructions.html#part-4-critical-reflection",
+    "href": "labs/lab_5/Lab_5_Instructions.html#part-4-critical-reflection",
+    "title": "HW5: Your Turn!",
+    "section": "",
+    "text": "Write 1-2 paragraphs addressing:\n\nOperational implications:\n\nIs your final MAE “good enough” for Indego to use?\nWhen do prediction errors cause problems for rebalancing?\nWould you recommend deploying this system? Under what conditions?\n\nEquity considerations:\n\nDo prediction errors disproportionately affect certain neighborhoods?\nCould this system worsen existing disparities in bike access?\nWhat safeguards would you recommend?\n\nModel limitations:\n\nWhat patterns is your model missing?\nWhat assumptions might not hold in real deployment?\nHow would you improve this with more time/data?"
+  },
+  {
+    "objectID": "labs/lab_5/Lab_5_Instructions.html#what-to-submit-per-team",
+    "href": "labs/lab_5/Lab_5_Instructions.html#what-to-submit-per-team",
+    "title": "HW5: Your Turn!",
+    "section": "What to Submit (per team)",
+    "text": "What to Submit (per team)\n\nqmd file with all your code (commented!)\nHTML output with results and visualizations\nBrief report summarizing (with supporting data & visualization):\n\nYour quarter and why you chose it\nModel comparison results\nError analysis insights\nNew features you added and why\nCritical reflection on deployment\n\nYou only need to submitted once as a team (one submit the link to your portfolio on Canvas)"
+  },
+  {
+    "objectID": "labs/lab_5/Lab_5_Instructions.html#tips-for-success",
+    "href": "labs/lab_5/Lab_5_Instructions.html#tips-for-success",
+    "title": "HW5: Your Turn!",
+    "section": "Tips for Success",
+    "text": "Tips for Success\n\nStart early - data download and processing takes time\nWork together - pair programming is your friend\nTest incrementally - don’t wait until the end to run code\nDocument everything - explain your choices\nBe creative - the best features come from understanding Philly!\nThink critically - technical sophistication isn’t enough"
   }
 ]

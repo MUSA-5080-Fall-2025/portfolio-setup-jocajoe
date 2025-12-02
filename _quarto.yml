@@ -26,6 +26,8 @@ website:
             text: "Lab 2: Assignment 2"
           - href: labs/lab_4/Cahill_Joey_Assignment4.qmd
             text: "Lab 4: Assignment 4"
+          - href: labs/lab_5/Cahill_Joey_Assignment5.qmd
+            text: "Lab 5: Assignment 5"
 
 format:
   html:

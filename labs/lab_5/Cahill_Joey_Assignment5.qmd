@@ -1,0 +1,22 @@
+---
+title: "Assignment 5: Space-Time Prediction of Bike Share Demand"
+subtitle: "Philadelphia Indego"
+author: "Joey Cahill"
+date: 12/01/2025
+format: 
+  html:
+    code-fold: false
+    toc: true
+    toc-location: left
+    theme: cosmo
+    embed-resources: true
+execute:
+  warning: false
+  message: false
+---
+
+# Assignment 5
+
+
+
+## Introduction
