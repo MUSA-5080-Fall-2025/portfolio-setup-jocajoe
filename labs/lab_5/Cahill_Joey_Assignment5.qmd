@@ -100,7 +100,7 @@ Here we add our sensus API as a variable to be called easily. To repeat this ana
 
 ```{r census_key, eval=FALSE}
 
-census_api_key("8deb926015351433bef092c55a5e8a90573283bd", overwrite = TRUE, install = TRUE)
+census_api_key("8deb926015351433bef092c55a5e8a90573283bd", overwrite = TRUE, install = FALSE)
 
 ```
 
