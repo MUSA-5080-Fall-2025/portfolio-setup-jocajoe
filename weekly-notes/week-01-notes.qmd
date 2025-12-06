@@ -4,19 +4,23 @@ date: "2025-09-08"
 ---
 
 ## Key Concepts Learned
-- [List main concepts from lecture]
-- [Technical skills covered]
+- All work will be added to our portfolio website including these notes, projects, and assignments
+- Course will utilize R and R studio for programming.
 
 ## Coding Techniques
-- [New R functions or approaches]
-- [Quarto features learned]
+- CSV files can be read into R Studio as 'tibbles' with the Tidyverse package
+- There are commmon R functions we will use such as glimpse(), mutate(), names(), rename(), etc. 
+- Use slanty single quotes ` like this and not ' these bad boys. Which makes me sad becuase ' these are my favorite
+- Groupbys can be used to find matches on specified variables and 'put them aside'
+- Summarize() is used to execute a command like  min, mean, sum etc. 
+- there are pipes that appear on the side of the code that connect lines of code together. Passes outputs fromn one to another. 
 
 ## Questions & Challenges
-- [What I didn't fully understand]
-- [Areas needing more practice]
+- I need to practice my R big time
+- Nail down understanding GitHub and not just how to use it.
 
 ## Connections to Policy
-- [How this week's content applies to real policy work]
+- Github and programming languages like R are commonly used tools in the Analytics realm. Analytics are used to predict behaviors, outcomes, and gain insight into topics that will drive policy creation or change.
 
 ## Reflection
 - [What was most interesting]

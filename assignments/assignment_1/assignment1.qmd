@@ -1,0 +1,417 @@
+---
+title: "Assignment 1: Census Data Quality for Policy Decisions"
+subtitle: "Evaluating Data Reliability for Algorithmic Decision-Making"
+author: "Joey Cahill"
+date: today
+format: 
+  html:
+    code-fold: false
+    toc: true
+    toc-location: left
+    theme: cosmo
+execute:
+  warning: false
+  message: false
+---
+
+# Assignment Overview
+
+## Scenario
+
+You are a data analyst for the **PA Department of Human Services**. The department is considering implementing an algorithmic system to identify communities that should receive priority for social service funding and outreach programs. Your supervisor has asked you to evaluate the quality and reliability of available census data to inform this decision.
+
+Drawing on our Week 2 discussion of algorithmic bias, you need to assess not just what the data shows, but how reliable it is and what communities might be affected by data quality issues.
+
+## Learning Objectives
+
+- Apply dplyr functions to real census data for policy analysis
+- Evaluate data quality using margins of error 
+- Connect technical analysis to algorithmic decision-making
+- Identify potential equity implications of data reliability issues
+- Create professional documentation for policy stakeholders
+
+# Setup
+
+```{r setup}
+library(tidycensus)
+library(tidyverse)
+library(knitr)
+
+```
+
+Assign API Key to variable:
+
+census_api_key("YourAPIKey")
+
+```{r api key}
+#| include: false
+census_api_key("8deb926015351433bef092c55a5e8a90573283bd")
+```
+# Choose your state for analysis - assign it to a variable called my_state
+
+```{r State Assignment}
+my_state <- "Pennsylvania"
+
+```
+
+State Selection: I have chosen **Pennsylvania** for this analysis because: I am from PA originally and currently reside and vote in it. The issues I will explore in this analysis will be directly relevant to my community.
+
+# Part 2: County-Level Resource Assessment
+
+## 2.1 Data Retrieval
+
+```{r county-data}
+# Write your get_acs() code here
+
+pa_county_data <- get_acs(
+  geography = "county",
+  variables = c(median_income = "B19013_001", total_population = "B01003_001"),
+  state = my_state,
+  year = 2022,
+  survey = "acs5",
+  output = "wide")
+# Clean the county names to remove state name and "County" 
+# Hint: use mutate() with str_remove()
+pa_clean <- pa_county_data %>%
+  mutate(
+    county_name = str_remove(NAME, ", Pennsylvania"),
+    county_name = str_remove(county_name, " County"))
+# Display the first few rows
+head(pa_clean)
+```
+
+## 2.2 Data Quality Assessment
+
+```{r income-reliability}
+# Calculate MOE percentage and reliability categories using mutate()
+
+
+pa_reliability <- pa_clean %>%
+  mutate(
+    # Calculate MOE as percentage of estimate
+    moe_percentage = round((median_incomeM / median_incomeE) * 100, 2),
+    
+    # Create reliability categories
+    reliability = case_when(
+      moe_percentage < 5 ~ "High Confidence",
+      moe_percentage >= 5 & moe_percentage <= 10 ~ "Moderate",
+      moe_percentage > 10 ~ "Low Confidence"
+    )
+  )
+
+count(pa_reliability, reliability)
+# Create a summary showing count of counties in each reliability category
+# Hint: use count() and mutate() to add percentages
+```
+
+## 2.3 High Uncertainty Counties
+
+```{r high-uncertainty}
+# Create table of top 5 counties by MOE percentage
+high_uncertainty <- pa_reliability %>%
+  arrange(desc(moe_percentage)) %>%
+  slice_head(n = 5) %>%
+  select(county_name, median_incomeE, median_incomeM,total_populationE, moe_percentage, reliability)
+
+# Format as table with kable()
+kable(
+  high_uncertainty,
+  col.names = c("County", "Median Income","Total Population", "Margin of Error", "MOE %", "Reliability"),
+  caption = "Top 5 Pennsylvania Counties by Income Data Uncertainty",
+  format.args = list(big.mark = ",")
+)
+
+```
+
+**Data Quality Commentary:**
+
+If these counties are served by algorithmic decision making based on census data, they are vulnerable to bias and misrepresentation of their populations risking misappropriation of resources. The above Counties have the top 5 margin's of error within the dataset and very small populations.These are rural counties that are highly likely to need social assistance and state funding due to their lack of municipal resources. Their recorded median incomes are at risk of being misrepresented by a sample population that is more likely to have access to internet and more likely for their incomes to be on record. Poor rural communities tend to be underrepresented in census data due to their remoteness and lack of amenities. 
+
+# Part 3: Neighborhood-Level Analysis
+
+## 3.1 Focus Area Selection
+
+```{r select-counties}
+# Use filter() to select 2-3 counties from your county_reliability data
+# Store the selected counties in a variable called selected_counties
+# Display the selected counties with their key characteristics
+# Show: county name, median income, MOE percentage, reliability category
+# Define the counties you want
+selected_county_names <- c("Delaware", "Montour", "Jefferson")
+
+selected_counties <- pa_reliability %>%
+  filter(county_name %in% selected_county_names) %>%
+  select(county_name, median_incomeE,total_populationE, moe_percentage, reliability)
+
+kable(
+  selected_counties,
+  col.names = c("County", "Median Income","Total Population", "MOE %", "Reliability"),
+  caption = "Selected Counties: Key Income Estimate Characteristics",
+  format.args = list(big.mark = ","))
+
+```
+
+**Comment on the output:** I selected counties from three areas of the Reliability spectrum for comparison. A general trend seems to be that with higher population comes lower margin of error. These high population areas would see less errors from algorithm based service on their behalf. Conversely, potential error in lower population area's should be compensated for via more enhanced predictive modeling or simply a need based increase in service. A request based funding allotment could be a good stop gap until more accurate information is availible.
+
+## 3.2 Tract-Level Demographics
+
+```{r tract-demographics}
+# Define your race/ethnicity variables with descriptive names
+race_vars <- c(
+  white = "B03002_003",
+  black = "B03002_004",
+  hispanic = "B03002_012",
+  total_pop = "B03002_001"
+)
+# Use get_acs() to retrieve tract-level data
+# Hint: You may need to specify county codes in the county parameter
+
+tract_demo <- get_acs(
+  geography = "tract",
+  variables = race_vars,
+  state = my_state,
+  county = c("045", "065", "093"),  # can use names or FIPS codes
+  year = 2022,
+  survey = "acs5",
+  output = "wide"
+)
+
+# Calculate percentage of each group using mutate()
+
+tract_demo <- tract_demo %>%
+  mutate(
+    pct_white = round((whiteE / total_popE) * 100, 1),
+    pct_black = round((blackE / total_popE) * 100, 1),
+    pct_hispanic = round((hispanicE / total_popE) * 100, 1)
+  )
+
+# Create percentages for white, Black, and Hispanic populations
+
+# Add readable tract and county name columns using str_extract() or similar
+
+tract_demo <- tract_demo %>%
+  separate(NAME, into = c("tract_name", "county_name", "state"), sep = "; ") %>%
+  select(-state)
+
+head(tract_demo)
+```
+
+## 3.3 Demographic Analysis
+
+```{r demographic-analysis}
+# Find the tract with the highest percentage of Hispanic/Latino residents
+# Hint: use arrange() and slice() to get the top tract
+top_hispanic_tract <- tract_demo %>%
+  arrange(desc(pct_hispanic)) %>%
+  slice(1)
+
+top_hispanic_tract
+
+# Calculate average demographics by county using group_by() and summarize()
+# Show: number of tracts, average percentage for each racial/ethnic group
+
+county_summary <- tract_demo %>%
+  group_by(county_name) %>%
+  summarize(
+    n_tracts = n(),
+    avg_pct_white = round(mean(pct_white, na.rm = TRUE), 1),
+    avg_pct_black = round(mean(pct_black, na.rm = TRUE), 1),
+    avg_pct_hispanic = round(mean(pct_hispanic, na.rm = TRUE), 1)
+  ) %>%
+  ungroup()
+
+# Create a nicely formatted table of your results using kable()
+
+kable(county_summary, caption = "Average Demographics by County (ACS 2022 5-Year)")
+
+```
+
+# Part 4: Comprehensive Data Quality Evaluation
+
+## 4.1 MOE Analysis for Demographic Variables
+
+```{r demographic-moe}
+# Calculate MOE percentages for white, Black, and Hispanic variables
+# Hint: use the same formula as before (margin/estimate * 100)
+
+tract_moe <- tract_demo %>%
+  mutate(
+    moe_pct_white    = round((whiteM / whiteE) * 100, 1),
+    moe_pct_black    = round((blackM / blackE) * 100, 1),
+    moe_pct_hispanic = round((hispanicM / hispanicE) * 100, 1)
+  )
+
+# Create a flag for tracts with high MOE on any demographic variable
+
+tract_moe <- tract_moe %>%
+  mutate(
+    high_moe_flag = ifelse(
+      moe_pct_white > 50 | moe_pct_black > 50 | moe_pct_hispanic > 50,
+      TRUE, FALSE
+    )
+  )
+
+# Use logical operators (| for OR) in an ifelse() statement
+
+# Create summary statistics showing how many tracts have data quality issues
+moe_summary <- tract_moe %>%
+  summarize(
+    total_tracts = n(),
+    tracts_with_high_moe = sum(high_moe_flag, na.rm = TRUE),
+    pct_with_high_moe = round((tracts_with_high_moe / total_tracts) * 100, 1)
+  )
+
+moe_summary
+
+```
+
+## 4.2 Pattern Analysis
+
+```{r pattern-analysis}
+# Group tracts by whether they have high MOE issues
+# Calculate average characteristics for each group:
+# - population size, demographic percentages
+
+pattern_summary <- tract_moe %>%
+  group_by(high_moe_flag) %>%
+  summarize(
+    n_tracts       = n(),
+    avg_pop        = round(mean(total_popE, na.rm = TRUE), 0),
+    avg_pct_white  = round(mean(pct_white, na.rm = TRUE), 1),
+    avg_pct_black  = round(mean(pct_black, na.rm = TRUE), 1),
+    avg_pct_hisp   = round(mean(pct_hispanic, na.rm = TRUE), 1)
+  )
+
+# Use group_by() and summarize() to create this comparison
+# Create a professional table showing the patterns
+kable(
+  pattern_summary,
+  col.names = c(
+    "High MOE Flag",
+    "Number of Tracts",
+    "Avg Population",
+    "Avg % White",
+    "Avg % Black",
+    "Avg % Hispanic"
+  ),
+  caption = "Comparison of Tracts by Data Reliability (MOE > 50%)"
+)
+
+```
+
+**Pattern Analysis:** I observe no pattern with a high MOE cutoff score of 15% (All tracts met this criteria). Raising the threshold to 50% MOE, 95.3% of tracts still qualified as High Margin of Error Tracts. A lower average population of 3,692 v. 5,429 in the High MOE Tracts under the new criteria indicates that lower population tracts are more at risk for data quality issues. An increase from 47.4% to 66.6% White Population in these high risk tracts also indicates that the tracts with lower populations tend to be predominantly White demographically.
+
+# Part 5: Policy Recommendations
+
+## 5.1 Analysis Integration and Professional Summary
+
+**Executive Summary:**
+
+The chief systematic pattern across all my analysis was the inverse relationship between population and margin of error. Both counties and tracts that contained lower populations were more likely to have higher margins of error.
+
+This analysis showed that these rural communities face the largest risk of misrepresentation when employing algorithmic decision making. I would like to increase the scope of the study to examine urban population in more detail to understand which demographics are at higher risk of misrepresentation regardless of population dsensity.
+
+Systemic factors like poverty, historical oppression, and political and economic conditions all contribute to bias within data sets. Any analysis based on census data must account for these factors or they risk harming underrepresented communities. Under reporting or over reporting of information is cause for inaccuracy in algorithmic decision making.
+
+The department should include additional data in its analysis to create a more informed view of their target areas. Special attention should be payed to counties and tracts with a high Margin of Error in Census data. They should also allow for increased allocation of funds to these areas on an as needed basis. I would recommend a hybrid approach of algorithmic decision making and field research to determine resource allocation.
+
+## 6.3 Specific Recommendations
+
+
+```{r recommendations-data}
+# Create a summary table using your county reliability data
+# Include: county name, median income, MOE percentage, reliability category
+# Add a new column with algorithm recommendations using case_when():
+# - High Confidence: "Safe for algorithmic decisions"
+# - Moderate Confidence: "Use with caution - monitor outcomes"  
+# - Low Confidence: "Requires manual review or additional data"
+recommendations_table <- pa_reliability %>%
+  select(county_name, median_incomeE, moe_percentage, reliability) %>%
+  mutate(
+    algorithm_recommendation = case_when(
+      reliability == "High Confidence" ~ "Safe for algorithmic decisions",
+      reliability == "Moderate" ~ "Use with caution - monitor outcomes",
+      reliability == "Low Confidence" ~ "Requires manual review or additional data"))
+
+# Format as a professional table with kable()
+
+kable(
+  recommendations_table,
+  col.names = c("County", "Median Income", "MOE %", "Reliability", "Algorithm Recommendation"),
+  caption = "Algorithmic Decision-Making Recommendations by County",
+  format.args = list(big.mark = ","))
+
+```
+
+**Key Recommendations:**
+
+1. **Counties suitable for immediate algorithmic implementation:**
+
+The following counties are considered "High Confidence" and are suitable for algorithmic implementation.
+
+```{r high-confidence-table}
+high_confidence_table <- pa_reliability %>%
+  filter(reliability == "High Confidence") %>%
+  select(county_name, median_incomeE, moe_percentage, reliability) %>%
+  arrange(desc(median_incomeE))
+
+kable(
+  high_confidence_table,
+  col.names = c("County", "Median Income (Estimate)", "MOE %", "Reliability"),
+  caption = "Counties with High-Confidence Median Income Estimates (ACS 2022)",
+  format.args = list(big.mark = ","))
+```
+
+
+2. **Counties requiring additional oversight:**
+
+The following counties are of Moderate confidence. These counties would need closer analysis due to their risk for under representation. Additional data, outreach to local leaders and organizations, and likely additional funding would be key in successful allocation of resources.
+
+```{r moderate-confidence-table}
+
+moderate_confidence_table <- pa_reliability %>%
+  filter(reliability == "Moderate") %>%
+  select(county_name, median_incomeE, moe_percentage, reliability) %>%
+  arrange(desc(median_incomeE))
+
+kable(
+  moderate_confidence_table,
+  col.names = c("County", "Median Income (Estimate)", "MOE %", "Reliability"),
+  caption = "Counties with Moderate-Confidence Median Income Estimates (ACS 2022)",
+  format.args = list(big.mark = ",")
+)
+```
+
+3. **Counties needing alternative approaches:** The analysis did not find any counties with a low confidence level of data. This does not mean that there is no risk of inaccurate conclusions using algorithmic decision making but does allow for less reliance on alternative approaches.
+
+## Questions for Further Investigation
+
+Questions that arose during this analysis:
+
+1. What additional data sets would be useful to overcome poor confidence in census data?
+
+2. How can state agencies increase participation in the census and improve accuracy of census record?
+
+3. WHat is the estimated participation in the census and how does it change based on demographics?
+
+# Technical Notes
+
+**Data Sources:** 
+- U.S. Census Bureau, American Community Survey 2018-2022 5-Year Estimates
+- Retrieved via tidycensus R package on [date]
+
+**Reproducibility:** 
+- All analysis conducted in R version 4.5.1
+- Census API key required for replication
+- Complete code and documentation available at:
+
+https://musa-5080-fall-2025.github.io/portfolio-setup-jocajoe/
+
+**Methodology Notes:**
+
+This analysis was conducted with data from the 2020 U.S. Census and the 2023 5 year ACS data. It focused on Pennsylvania counties and census tracks. Should it be reproduced in the future, updated data should be utilized. 
+
+**Limitations:**
+This analysis was limited by geographic scope and sample size of included counties. It would be prudent to extend this study to all counties in PA at the tract level. It would also be of interest to perform this study with multiple concurrent ACS surveys to ensure understand how these demographics are changing over time.
+
+---
