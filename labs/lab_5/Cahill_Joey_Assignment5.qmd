@@ -98,11 +98,12 @@ palette5 <- c("#eff3ff", "#bdd7e7", "#6baed6", "#3182bd", "#08519c")
 
 Here we add our census API as a variable to be called easily. To repeat this analysis, you will need your own key.
 
-```{r census_key, eval=FALSE}
+census_api_key(“yourkeyhere”)
 
-census_api_key("8deb926015351433bef092c55a5e8a90573283bd", overwrite = TRUE, include = FALSE)
-
+```{r,echo=FALSE}
+census_api_key("8deb926015351433bef092c55a5e8a90573283bd")
 ```
+
 
 ## Data importation and preparation
 
